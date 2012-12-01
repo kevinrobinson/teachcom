@@ -122,9 +122,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_twilio',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'teachercomapp',
 )
 
 # A sample logging configuration. The only tangible logging
