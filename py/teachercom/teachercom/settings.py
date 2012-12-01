@@ -1,10 +1,23 @@
 # Django settings for teachercom project.
 
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
+    ('bhuber', 'bhuber@azavea.com'),
+    ('Graham', 'gcs272@gmail.com'),
+    ('Dan', 'daniel.lopezbraus@gmail.com'),
+    ('Mike', 'migallagher@philasd.org'),
+    ('Chrisitan', 'behl.christian01@gmail.com'),
+    ('Dan', 'djfreiman@gmail.com')
 )
 
 MANAGERS = ADMINS
