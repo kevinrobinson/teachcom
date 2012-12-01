@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 # Create your models here.
 class Student(models.Model):
@@ -33,3 +35,17 @@ class Event(models.Model):
     date_of_message = models.DateTimeField()
     type_of_message = models.IntegerField(choices=MESSAGE_TYPES) 
     result_of_message = models.IntegerField(choices = RESULT_TYPES)
+
+class Teacher(models.Model):
+    user = models.OneToOneField(User)
+    twilio_api_key=models.CharField(max_length=128)
+    twilio_api_secret=models.CharField(max_length=128)
+
+    def __str__(self):  
+      return "%s's profile" % self.user  
+
+def create_teacher(sender, instance, created, **kwargs):  
+    if created:  
+       profile, created = Teacher.objects.get_or_create(user=instance)  
+
+post_save.connect(create_teacher, sender=User)

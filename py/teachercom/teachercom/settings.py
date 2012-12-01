@@ -149,6 +149,7 @@ ACCOUNT_ACTIVATION_DAYS = 7
 #Temporary email backend 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FILE_PATH='email_log'
+AUTH_PROFILE_MODULE='teachercomapp.Teacher'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
