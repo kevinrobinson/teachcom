@@ -1,0 +1,4 @@
+django==1.4.2
+#django-twilio==0.2
+twilio==3.4.0
+
