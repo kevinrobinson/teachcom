@@ -20,8 +20,11 @@ def send(request):
         data.update(csrf(request))
         return render_to_response('send.html', data)
     else:
+        print request.POST
+        print request.POST.getlist('students')
         message = Message.objects.get(pk=request.POST['message'])
-        for student_id in request.POST['students']:
+        for student_id in request.POST.getlist('students'):
+            print student_id
             student = Student.objects.get(pk=student_id)
             if student.sms_notification_ind:
                 send_message(student, message, 1)
@@ -32,6 +35,7 @@ def send(request):
         return render_to_response('sent.html')
 
 def send_message(student, message, message_type):
+    print 'sending message for %s' % (student.first_name)
     event = Event(student=student, message=message,
         date_of_message=datetime.datetime.now(),
         type_of_message=message_type,
