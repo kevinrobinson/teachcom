@@ -26,10 +26,10 @@ class Event(models.Model):
         (1, 'busy'),
         (2, 'nopickup'),
         (3, 'failed'),
+        (4, 'pending'),
         )
     student = models.ForeignKey('Student')
     message = models.ForeignKey('Message')
     date_of_message = models.DateTimeField()
-    time_of_message = models.DateTimeField()
     type_of_message = models.IntegerField(choices=MESSAGE_TYPES) 
     result_of_message = models.IntegerField(choices = RESULT_TYPES)
