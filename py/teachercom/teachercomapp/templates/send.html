@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <form action="#" method="post">
+    {% csrf_token %}
     <select name="students" multiple>
         {% for student in students %}
             <option value="{{student.id}}">{{student.first_name}}
@@ -13,6 +14,8 @@
             <option value="{{message.id}}">{{message.label}}</option>
         {% endfor %}
     </select>
+
+    <input type='submit' class='btn btn-primary' value='Send Messages' />
 </form>
 <script type="text/javascript">
 $(function() {
