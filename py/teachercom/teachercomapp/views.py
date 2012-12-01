@@ -2,7 +2,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from teachercomapp.models import Student, Message
+from django.views.decorators.cache import cache_page
 
+@cache_page(1)
 def index(request):
     return render_to_response('index.html')
 
