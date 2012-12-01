@@ -3,3 +3,8 @@
 *.pyc
 local_settings.py
 env
+
+*.swp
+*.swo
+~*
+
