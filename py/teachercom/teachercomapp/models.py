@@ -12,6 +12,7 @@ class Student(models.Model):
     email= models.CharField(max_length=30)
 
 class Message(models.Model):
+    label = models.CharField(max_length=64)
     text = models.TextField()
 
 class Event(models.Model):
