@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Student(models.Model):
-    student_id = models.BigIntegerField().unique 
+    student_id = models.BigIntegerField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     sms_notification_ind = models.BooleanField()
