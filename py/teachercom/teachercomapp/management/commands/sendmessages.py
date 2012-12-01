@@ -17,13 +17,13 @@ class Command(BaseCommand):
 
                 #conn.sms.messages.create(
                 #    to=event.student.phone_number,
-                #    from=<twilio phone number>,
-                #    message=msg)
+                #    from_=<twilio phone number>,
+                #    body=msg)
             elif event.type_of_message == 2:
                 # send voice call
                 #conn.calls.create(
                 #    to=event.student.phone_number,
-                #    from=<twilio phone number>,
+                #    from_=<twilio phone number>,
                 #    url='<base url>/calls/%d' % (event.id))
             else:
                 # send email, you know, if we get time
