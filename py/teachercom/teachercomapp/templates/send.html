@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="#" method="post">
+    <select name="students" multiple>
+        {% for student in students %}
+            <option value="{{student.id}}">{{student.first_name}}
+                {{student.last_name}}</option>
+        {% endfor %}
+    </select>
+
+    <select name="message">
+        {% for message in messages %}
+            <option value="{{message.id}}">{{message.label}}</option>
+        {% endfor %}
+    </select>
+</form>
+<script type="text/javascript">
+$(function() {
+    $('select[name=students]').select2();
+});
+</script>
+{% endblock %}

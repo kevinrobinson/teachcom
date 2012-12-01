@@ -7,6 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'teachercomapp.views.index', name='index'),
+    url(r'^send/', 'teachercomapp.views.send', name='send'),
     # url(r'^teachercom/', include('teachercom.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
