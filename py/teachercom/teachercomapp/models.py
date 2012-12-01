@@ -15,9 +15,20 @@ class Message(models.Model):
     text = models.TextField()
 
 class Event(models.Model):
+    MESSAGE_TYPES =  (
+        (1, 'sms'),
+        (2, 'voice'),
+        (3, 'email'),
+        )
+    RESULT_TYPES = (
+        (0, 'success'),
+        (1, 'busy'),
+        (2, 'nopickup'),
+        (3, 'failed'),
+        )
     student = models.ForeignKey('Student')
     message = models.ForeignKey('Message')
     date_of_message = models.DateTimeField()
     time_of_message = models.DateTimeField()
-    type_of_message = models.IntegerField() #Create a dict for this
-    result_of_message = models.IntegerField() #and this
+    type_of_message = models.IntegerField(choices=MESSAGE_TYPES) 
+    result_of_message = models.IntegerField(choices = RESULT_TYPES)
