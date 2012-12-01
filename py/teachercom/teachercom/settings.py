@@ -1,5 +1,12 @@
 # Django settings for teachercom project.
 
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
