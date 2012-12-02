@@ -7,6 +7,8 @@ from teachercomapp.models import Student, Message, Event
 import datetime
 import csv
 import StringIO
+from twilio import twiml
+from django import template
 
 @cache_page(1)
 def index(request):
