@@ -11,8 +11,8 @@ class Command(BaseCommand):
             number of requests """
         for event in Event.objects.filter(result_of_message=4):
             conn = TwilioRestClient(
-                event.message.teacher.twilio_account_sid,
-                event.message.teacher.twilio_auth_token)
+                account = event.message.teacher.twilio_account_sid,
+                token = event.message.teacher.twilio_auth_token)
             if event.type_of_message == 1:
                 # send sms
                 t = template.Template(event.message.text)
@@ -33,7 +33,7 @@ class Command(BaseCommand):
                 conn.calls.create(
                     to = event.student.phone_number,
                     from_ = event.message.teacher.twilio_number,
-                    url = 'http://www.teachercom.org/twilio_calls/%d' % (event.id))
+                    url = 'http://3rqd.localtunnel.com/twilio_calls/%d/' % (event.id))
             else:
                 pass
                 # send email, you know, if we get time

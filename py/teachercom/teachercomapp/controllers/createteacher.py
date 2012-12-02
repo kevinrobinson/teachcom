@@ -11,8 +11,8 @@ def create_teacher(sender, **kwargs):
     form=UserRegistrationForm(request)
     extended_user = Teacher()
     extended_user.user = User.objects.get(username=request['username'])
-    extended_user.twilio_api_key = request['twilio_api_key']
-    extended_user.twilio_api_secret = request['twilio_api_secret']
+    extended_user.twilio_account_sid = request['twilio_account_sid']
+    extended_user.twilio_auth_token = request['twilio_auth_token']
     extended_user.twilio_number=request['twilio_number']
     extended_user.save()
     print "teacher created"
