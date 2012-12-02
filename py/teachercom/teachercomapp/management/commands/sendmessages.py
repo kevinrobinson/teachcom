@@ -11,8 +11,8 @@ class Command(BaseCommand):
             number of requests """
         for event in Event.objects.filter(result_of_message=4):
             conn = TwilioRestClient(
-                event.message.teacher.twilio_api_key,
-                event.message.teacher.twilio_api_secret)
+                event.message.teacher.twilio_account_sid,
+                event.message.teacher.twilio_auth_token)
             if event.type_of_message == 1:
                 # send sms
                 t = template.Template(event.message.text)

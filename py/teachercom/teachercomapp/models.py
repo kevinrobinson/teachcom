@@ -40,6 +40,6 @@ class Event(models.Model):
 
 class Teacher(models.Model):
     user = models.OneToOneField(User)
-    twilio_api_key = models.CharField(max_length = 128)
-    twilio_api_secret = models.CharField(max_length = 128)
+    twilio_account_sid = models.CharField(max_length = 128)
+    twilio_auth_token = models.CharField(max_length = 128)
     twilio_number = models.CharField(max_length = 20)
