@@ -37,10 +37,9 @@ class Event(models.Model):
     date_of_message = models.DateTimeField()
     type_of_message = models.IntegerField(choices=MESSAGE_TYPES) 
     result_of_message = models.IntegerField(choices = RESULT_TYPES)
-    teacher = models.ForeignKey('Teacher')
 
 class Teacher(models.Model):
     user = models.OneToOneField(User)
-    twilio_api_key = models.CharField(max_length = 128)
-    twilio_api_secret = models.CharField(max_length = 128)
+    twilio_account_sid = models.CharField(max_length = 128)
+    twilio_auth_token = models.CharField(max_length = 128)
     twilio_number = models.CharField(max_length = 20)
