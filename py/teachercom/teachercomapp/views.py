@@ -7,6 +7,8 @@ from teachercomapp.models import Student, Message, Event
 import datetime
 import csv
 import StringIO
+from twilio import twiml
+from django import template
 
 @cache_page(1)
 def index(request):
@@ -68,3 +70,46 @@ def send_message(student, message, message_type):
         type_of_message=message_type,
         result_of_message=4)
     event.save()
+
+def phone_call_config(request, event_id):
+    twilio_call_id = request.POST.CallSid
+
+    event = Event(pk=event_id)
+
+    t = template.Template(event.message.text)
+    c = template.Context({'student': event.student})
+    call_text = t.render(c)
+
+    # TODO if student not found ?
+    # TODO if student.objects.call_notification_ind if false?
+
+    r = twiml.Response()
+    r.say(call_text)
+
+    return HttpResponse(str(r))
+
+
+def phone_call_completed_handler(request, event_id):
+    twilio_call_id = request.POST.CallSid
+    call_status = request.POST.CallStatus
+    answered_by = request.POST.AnsweredBy
+
+    event = Event(pk=event_id)
+    student = event.Student
+
+    if request.POST.Status == 'completed':
+        result = 0
+    elif request.POST.Status == 'busy':
+        result = 1
+    elif request.POST.Status == 'no-answer':
+        result = 2
+    elif request.POST.Status == 'failed':
+        result = 3
+    else:
+        result = -1
+
+    if result != -1:
+        event.result_of_message = result
+        event.Save()
+
+    return render_to_response("success")
