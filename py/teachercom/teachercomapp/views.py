@@ -22,14 +22,9 @@ def send(request):
     if request.method == 'GET':
         teacher = Teacher.objects.get(user=request.user)
         data = {
-<<<<<<< HEAD
             'students': Student.objects.filter(teachers=teacher).order_by('first_name'),
-            'messages': Message.objects.filter(teacher=teacher).order_by('label')
-=======
-            'students': Student.objects.order_by('first_name'),
-            'messages': Message.objects.order_by('label'),
+            'messages': Message.objects.filter(teacher=teacher).order_by('label'),
             'user': request.user,
->>>>>>> added logout/login
         }
 
         data.update(csrf(request))
@@ -88,13 +83,9 @@ def handle_csv(request):
                 email_notification_ind = (row[7].strip() == 'True'),
             )
             student.save()
-<<<<<<< HEAD
             student.teachers.add(teacher)
             student.save()
-        return render_to_response('csv-saved.html')
-=======
         return render_to_response('csv-saved.html', data)
->>>>>>> added logout/login
 
 def call_log(request):
     teacher = Teacher.objects.get(user=request.user)

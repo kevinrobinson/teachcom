@@ -11,11 +11,14 @@
     <div class="navbar">
         <div class="navbar-inner">
             <a class="brand" href="/">Teachercom</a>
+            {% if user.is_authenticated %}
             <ul class="nav">
                 <li><a href="/send">Messaging</a></li>
                 <li><a href="/csv">Students</a></li>
+                <li><a href="/call_log">Call Log</a></li>
                 <li><a href="/admin">Manage</a></li>
             </ul>
+            {% endif %}
             <div class="nav pull-right">
                 <ul class="nav">
                     {% if user.is_authenticated %}
