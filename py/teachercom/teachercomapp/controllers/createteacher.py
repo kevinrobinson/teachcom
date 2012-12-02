@@ -1,4 +1,6 @@
 from teachercomapp.forms import UserRegistrationForm
+from django.contrib.auth.models import User
+
 from teachercomapp.models import Teacher
 
 from registration.signals import user_registered
@@ -13,5 +15,6 @@ def create_teacher(sender, **kwargs):
     extended_user.twilio_api_secret = request['twilio_api_secret']
     extended_user.twilio_number=request['twilio_number']
     extended_user.save()
+    print "teacher created"
 
 user_registered.connect(create_teacher)
