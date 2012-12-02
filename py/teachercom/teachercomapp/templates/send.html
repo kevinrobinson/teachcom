@@ -1,25 +1,34 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action="#" method="post">
+<form action="#" method="post" class="form-horizontal">
     {% csrf_token %}
-    <select name="students" multiple>
-        {% for student in students %}
-            <option value="{{student.id}}">{{student.first_name}}
-                {{student.last_name}}</option>
-        {% endfor %}
-    </select>
-
-    <select name="message">
-        {% for message in messages %}
-            <option value="{{message.id}}">{{message.label}}</option>
-        {% endfor %}
-    </select>
-
-    <input type='submit' class='btn btn-primary' value='Send Messages' />
+    <h2>Send Messages</h2>
+    <div class='control-group'>
+        <label for="students">Enter Student Names</label>
+        <select name="students" class="span4" multiple>
+            {% for student in students %}
+                <option value="{{student.id}}">{{student.first_name}}
+                    {{student.last_name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="control-group">
+        <label for="message">Enter Message Type</label>
+        <select name="message" class="span4">
+            {% for message in messages %}
+                <option value="{{message.id}}">{{message.label}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="control-group">
+        <label> </label>
+        <input type='submit' class='btn btn-primary' value='Send Messages' />
+    </div>
 </form>
 <script type="text/javascript">
 $(function() {
     $('select[name=students]').select2();
+    $('select[name=message]').select2();
 });
 </script>
 {% endblock %}
