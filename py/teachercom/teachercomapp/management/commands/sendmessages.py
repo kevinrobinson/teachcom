@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django import template
 from teachercomapp.models import Event, Student, Message
 from twilio.rest import TwilioRestClient
+from teachercom.settings import *
 
 class Command(BaseCommand):
     help = "Send messages queued to be sent in the (hopefully recent) past"
@@ -33,7 +34,7 @@ class Command(BaseCommand):
                 conn.calls.create(
                     to = event.student.phone_number,
                     from_ = event.message.teacher.twilio_number,
-                    url = 'http://3rqd.localtunnel.com/twilio_calls/%d/' % (event.id))
+                    url = '%stwilio_calls/%d/' % (BASE_URL, event.id))
             else:
                 pass
                 # send email, you know, if we get time
