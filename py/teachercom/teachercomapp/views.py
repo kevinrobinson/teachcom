@@ -36,13 +36,15 @@ def send(request):
         return render_to_response('sent.html')
 
 def handle_csv(request):
+    """ Note: not a whole lot of error detection / correction
+        going on here, if a bad csv comes in, it'll 500 """
     if request.method == 'GET':
         data = {}
         data.update(csrf(request))
         return render_to_response('csv.html', data)
     else:
         f = request.FILES['csv']
-        contents = f.read()
+        contents = f.read().replace('\r\n', '\n').replace('\r', '\n')
 
         fp = StringIO.StringIO(contents)
 
