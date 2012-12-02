@@ -3,6 +3,7 @@ from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import csrf_exempt
 from teachercomapp.models import Student, Message, Event, Teacher
 import datetime
 import csv
@@ -80,10 +81,9 @@ def send_message(student, message, message_type):
         result_of_message=4)
     event.save()
 
-def phone_call_config(request, event_id):
-    twilio_call_id = request.POST.CallSid
-
-    event = Event(pk=event_id)
+@csrf_exempt
+def twilio_call(request, event_id):
+    event = Event.objects.get(pk=event_id)
 
     t = template.Template(event.message.text)
     c = template.Context({'student': event.student})
@@ -96,7 +96,6 @@ def phone_call_config(request, event_id):
     r.say(call_text)
 
     return HttpResponse(str(r))
-
 
 def phone_call_completed_handler(request, event_id):
     twilio_call_id = request.POST.CallSid
