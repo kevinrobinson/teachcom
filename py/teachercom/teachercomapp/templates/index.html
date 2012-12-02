@@ -1,6 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
 {# we should replace this image #}
-<img src="http://www.maine.gov/education/images/parent%20teacher.jpg">
+<div class="row">
+    <div class="span6">
+        <h1>Revolutionize your parent contacts</h1>
+        <ul>
+            <li>Automatically call, email or text parents</li>
+            <li>Call multiple students at a time</li>
+            <li>Log all parent contacts</li>
+            <li>Save hours of time, every week</li>
+        </ul>
+        <a href="accounts/register" class="offset1 btn btn-primary"> Get Started Now! </a>
+    </div>
+    <div class="span6">
+        <img src="http://www.maine.gov/education/images/parent%20teacher.jpg">
+    </div>
+</div>
+<div class="row">
+    <div class="span12">
+        <h1>How it Works: </h1>
+        <ol>
+            <li>Get a Twilio Account at <a href="www.twilio.com">www.twilio.com</a></li>
+            <li>Load $$ on your account ($20 gets you <b>500</b> phone calls or <br>1000</br> texts!)</li>
+            <li>Sign up for TeacherCom</li>
+            <li>Upload your students via CSV</li>
+            <li>Start calling! </li>
+        </ol>
+    </div>
 </div>
 {% endblock %}

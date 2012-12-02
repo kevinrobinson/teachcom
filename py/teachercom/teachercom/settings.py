@@ -152,6 +152,12 @@ SEND_EMAIL = False  #Change this to True to require 2 step activation with an em
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FILE_PATH='/tmp/email_log'
 
+#Sendgrid user settings 
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'teachercom'
+EMAIL_HOST_PASSWORD = 'teachercom'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 AUTH_PROFILE_MODULE='teachercomapp.Teacher'
 LOGIN_REDIRECT_URL = '/send'
