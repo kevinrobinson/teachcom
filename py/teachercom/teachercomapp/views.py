@@ -96,6 +96,15 @@ def handle_csv(request):
         return render_to_response('csv-saved.html', data)
 >>>>>>> added logout/login
 
+def call_log(request):
+    data = {
+            'events': Event.objects.order_by('first_name')
+            'user': request.user,
+        }
+
+    return render_to_response('index.html', data)        
+
+
 def send_message(student, message, message_type):
     print 'sending message for %s' % (student.first_name)
     event = Event(student=student, message=message,
