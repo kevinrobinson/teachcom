@@ -2,13 +2,23 @@ from django.conf.urls import patterns, include, url
 from teachercomapp.forms import UserRegistrationForm
 
 from registration.views import register
+# from registration.views import login
 import registration.backends.default.urls as regUrls
-# import regbackend
+# import registration.backends.simple.urls as simpleUrls
 
-
+from teachercom import settings
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+
 admin.autodiscover()
+
+backend_string = ('registration.backends.' + 
+    ('default.DefaultBackend' if settings.SEND_EMAIL else 'simple.SimpleBackend'))
+
+register_args = { 'backend': backend_string,'form_class': UserRegistrationForm }
+
+if not settings.SEND_EMAIL:
+    register_args['success_url'] = 'send'
 
 urlpatterns = patterns('',
     # Examples:
@@ -22,6 +32,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/register/$', register, {'backend': 'registration.backends.default.DefaultBackend','form_class': UserRegistrationForm}, name='registration_register'),
-    (r'^accounts/', include(regUrls)),
+    url(r'^accounts/register/$', register, register_args, name='registration_register'),
+    url(r'^accounts/', include(regUrls)),
     )
