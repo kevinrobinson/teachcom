@@ -42,17 +42,13 @@ class Teacher(models.Model):
     twilio_api_key=models.CharField(max_length=128)
     twilio_api_secret=models.CharField(max_length=128)
 
-def create_teacher(sender, **kwargs):  
-    # if created:  
-    #    profile, created = Teacher.objects.get_or_create(user=instance) 
-    #print kwargs
-    form=UserRegistrationForm(kwargs['request'].POST)
-    print kwargs['request'].POST
+def create_teacher(sender, **kwargs):
+    request = kwargs['request'].POST  
+    form=UserRegistrationForm(request)
     extended_user = Teacher()
-    extended_user.user = User.objects.get(username=kwargs['request'].POST['username'])
-    print form
-    extended_user.twilio_api_key = kwargs['request'].POST['twilio_api_key']
-    extended_user.twilio_api_secret = kwargs['request'].POST['twilio_api_secret']
+    extended_user.user = User.objects.get(username=request['username'])
+    extended_user.twilio_api_key = request['twilio_api_key']
+    extended_user.twilio_api_secret = request['twilio_api_secret']
     extended_user.save()
 
 from registration.signals import user_registered
