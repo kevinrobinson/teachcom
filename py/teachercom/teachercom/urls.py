@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^$', 'teachercomapp.views.index', name='index'),
     url(r'^send/', 'teachercomapp.views.send', name='send'),
     url(r'^csv/', 'teachercomapp.views.handle_csv', name='csv'),
+    url(r'^call_log/', 'teachercomapp.views.call_log', name='call_log'),
     # url(r'^teachercom/', include('teachercom.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

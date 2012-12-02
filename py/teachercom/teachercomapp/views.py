@@ -12,19 +12,28 @@ from django import template
 
 @cache_page(1)
 def index(request):
-    return render_to_response('index.html')
+    data = {
+        'user': request.user,
+    }
+
+    return render_to_response('index.html', data)
 
 def send(request):
     if request.method == 'GET':
         teacher = Teacher.objects.get(user=request.user)
         data = {
             'students': Student.objects.filter(teachers=teacher).order_by('first_name'),
-            'messages': Message.objects.filter(teacher=teacher).order_by('label')
+            'messages': Message.objects.filter(teacher=teacher).order_by('label'),
+            'user': request.user,
         }
 
         data.update(csrf(request))
         return render_to_response('send.html', data)
     else:
+        data = {
+            'user': request.user,
+        }
+
         message = Message.objects.get(pk=request.POST['message'])
         for student_id in request.POST.getlist('students'):
             student = Student.objects.get(pk=student_id)
@@ -34,16 +43,22 @@ def send(request):
                 send_message(student, message, 2)
             if student.email_notification_ind:
                 send_message(student, message, 3)
-        return render_to_response('sent.html')
+        return render_to_response('sent.html', data)
 
 def handle_csv(request):
     """ Note: not a whole lot of error detection / correction
         going on here, if a bad csv comes in, it'll 500 """
     if request.method == 'GET':
-        data = {}
+        data = {
+            'user': request.user,
+        }
         data.update(csrf(request))
         return render_to_response('csv.html', data)
     else:
+        data = {
+            'user': request.user,
+        }
+
         f = request.FILES['csv']
         contents = f.read().replace('\r\n', '\n').replace('\r', '\n')
 
@@ -70,7 +85,16 @@ def handle_csv(request):
             student.save()
             student.teachers.add(teacher)
             student.save()
-        return render_to_response('csv-saved.html')
+        return render_to_response('csv-saved.html', data)
+
+def call_log(request):
+    teacher = Teacher.objects.get(user=request.user)
+    data = {
+            'events': Event.objects.filter(message=Message.objects.filter(teacher=teacher)),
+            'user': request.user,
+        }
+    return render_to_response('call_log.html', data)        
+
 
 def send_message(student, message, message_type):
     print 'sending message for %s' % (student.first_name)

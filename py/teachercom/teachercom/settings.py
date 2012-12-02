@@ -142,7 +142,6 @@ INSTALLED_APPS = (
     'registration'
 )
 
-
 #Number of days for activation email to stay valid
 ACCOUNT_ACTIVATION_DAYS = 7
 
