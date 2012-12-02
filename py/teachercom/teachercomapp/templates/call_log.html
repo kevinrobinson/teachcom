@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<table class="table">
+    <thead>
+        <td> Student </td>
+        <td> Message </td>
+        <td> Date </td>
+        <td> Type </dd>
+        <td> Result </dd>
+    </thead>
+    <tbody>
+        {% for event in events %}
+        <tr>
+            <td> {{ event.student.first_name }} {{event.student.last_name}} </td>
+            <td> {{ event.message.text }} </td>
+            <td> {{ event.date_of_message }} </td>
+            <td> {{ event.get_type_of_message_display }} </td>
+            <td> {{ event.get_result_of_message_display }} </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
