@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="#" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h2>Upload CSV</h2>
+    <input type="file" name="csv" />
+    <br />
+    <input type="submit" class="btn btn-primary" value="Upload" />
+</form>
+<h4>Example</h4>
+<div class="well">
+    <pre>
+student id, first name, last name, phone number, email, sms preference, call preference, email preference
+12345, Johnny, Truant, 215-555-1212, mr.truant@gmail.com, False, True, False
+23456, Jane, Doe, 215-555-1234, mrs.doe@gmail.com, True, False, True
+    </pre>
+</div>
+{% endblock %}
