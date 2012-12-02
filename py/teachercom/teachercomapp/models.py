@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from teachercomapp.forms import UserRegistrationForm
 
 # Create your models here.
 class Student(models.Model):
@@ -39,21 +38,6 @@ class Event(models.Model):
 
 class Teacher(models.Model):
     user = models.OneToOneField(User)
-    twilio_api_key=models.CharField(max_length=128)
-    twilio_api_secret=models.CharField(max_length=128)
-
-def create_teacher(sender, **kwargs):  
-    # if created:  
-    #    profile, created = Teacher.objects.get_or_create(user=instance) 
-    #print kwargs
-    form=UserRegistrationForm(kwargs['request'].POST)
-    print kwargs['request'].POST
-    extended_user = Teacher()
-    extended_user.user = User.objects.get(username=kwargs['request'].POST['username'])
-    print form
-    extended_user.twilio_api_key = kwargs['request'].POST['twilio_api_key']
-    extended_user.twilio_api_secret = kwargs['request'].POST['twilio_api_secret']
-    extended_user.save()
-
-from registration.signals import user_registered
-user_registered.connect(create_teacher)
+    twilio_api_key = models.CharField(max_length = 128)
+    twilio_api_secret = models.CharField(max_length = 128)
+    twilio_number = models.CharField(max_length = 20)
