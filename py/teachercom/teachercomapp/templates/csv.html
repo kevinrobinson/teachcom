@@ -4,6 +4,10 @@
     {% csrf_token %}
     <h2>Upload CSV</h2>
     <input type="file" name="csv" />
+    <div class="control-group">
+        <label for="skip_first_line">Skip the first line of the CSV</label>
+        <input type="checkbox" name="skip_first_line" checked />
+    </div>
     <br />
     <input type="submit" class="btn btn-primary" value="Upload" />
 </form>

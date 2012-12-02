@@ -43,6 +43,11 @@ def handle_csv(request):
         contents = f.read()
 
         fp = StringIO.StringIO(contents)
+
+        # Check if we need to skip the first line
+        if request.POST['skip_first_line'] == 'on':
+            next(fp)
+
         reader = csv.reader(fp)
         for row in reader:
             student = Student(
