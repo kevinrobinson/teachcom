@@ -38,6 +38,8 @@ configure_django() {
         return 1
     fi
 
+    BASE_URL="http://www.teachercom.org/"
+
     TWILIO_ENABLED="True"
     echo -e "\nEnter your Twilio credentials (you can leave these blank to use the test account)"
 
@@ -62,6 +64,7 @@ configure_django() {
     echo "    ('$USERNAME', '$EMAIL')," >> $LOCAL
     echo ")" >> $LOCAL
     echo "" >> $LOCAL
+    echo "BASE_URL = '$BASE_URL'" >> $LOCAL
     echo "TWILIO_ENABLED = $TWILIO_ENABLED" >> $LOCAL
     echo "TWILIO_ACCOUNT_SID = $ACCOUNT_SID" >> $LOCAL
     echo "TWILIO_AUTH_TOKEN = $ACCOUNT_AUTH" >> $LOCAL
