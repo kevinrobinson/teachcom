@@ -97,12 +97,12 @@ def handle_csv(request):
 >>>>>>> added logout/login
 
 def call_log(request):
+    teacher = Teacher.objects.get(user=request.user)
     data = {
-            'events': Event.objects.order_by('first_name')
+            'events': Event.objects.filter(message=Message.objects.filter(teacher=teacher)),
             'user': request.user,
         }
-
-    return render_to_response('index.html', data)        
+    return render_to_response('call_log.html', data)        
 
 
 def send_message(student, message, message_type):
