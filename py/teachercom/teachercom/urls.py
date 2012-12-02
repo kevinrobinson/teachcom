@@ -1,4 +1,10 @@
 from django.conf.urls import patterns, include, url
+from teachercomapp.forms import UserRegistrationForm
+
+from registration.views import register
+import registration.backends.default.urls as regUrls
+# import regbackend
+
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -15,4 +21,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-)
+    url(r'^accounts/register/$', register, {'backend': 'registration.backends.default.DefaultBackend','form_class': UserRegistrationForm}, name='registration_register'),
+    (r'^accounts/', include(regUrls)),
+    )
