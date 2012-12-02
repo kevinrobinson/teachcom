@@ -9,3 +9,5 @@ env
 *.swo
 ~*
 
+log_install.log
+

@@ -10,7 +10,7 @@ if [ `whoami` != "root" ]; then
 fi
 
 INSTALL_DIR=`pwd`
-LOG=$INSTALL_DIR/install.log
+LOG=$INSTALL_DIR/log_install.log    # Silly name so I can type i + TAB to edit this
 echo -n "" > $LOG
 
 
@@ -22,6 +22,106 @@ if [ "$YN" == "y" ]; then
     apt-get install -q -y openssh-server python2.7 python-pip sqlite3 &>> $LOG
     pip install -r requirements.txt &>> $LOG
 fi
+
+echo -e "\nSetup for production server (nginx, gunicorn, etc) (y/n)?"
+read YN
+if [ "$YN" == "y" ]; then
+    apt-get install -q -y nginx &>> $LOG
+    pip install gunicorn &>> $LOG
+
+    # configure nginx
+    NGINX_DEFAULT=/etc/nginx/sites-enabled/default
+    if [ -e $NGINX_DEFAULT ]; then
+        echo -e "\nFound a default config for nginx, saving it to $NGINX_DEFAULT.bak"
+        cp $NGINX_DEFAULT{,.bak}
+        rm $NGINX_DEFAULT
+    fi
+
+fi
+
+
+
+CFG=/etc/nginx/sites-available/teachercom
+GCFG=/etc/gunicorn.d/teachercom
+    
+configure_nginx() {
+    if [ -z "$1" ]; then
+        return 1
+    fi
+
+    if [ -e "$CFG" ]; then
+        rm $CFG
+    fi
+
+    echo "upstream app_server {" > $CFG
+    echo "    server unix:/tmp/gunicorn.sock fail_timeout=0;" >> $CFG
+    echo "}" >> $CFG
+    echo "server {" >> $CFG
+    # echo "    listen 80 default;" >> $CFG
+    echo "    server_name www.teachercom.org;" >> $CFG
+    echo "    root $1/py/teachercom/;" >> $CFG
+    echo "    location / {" >> $CFG
+    echo "        try_files \$uri @proxy_to_app;" >> $CFG
+    echo "    }" >> $CFG
+    echo "    location @proxy_to_app {" >> $CFG
+    echo "        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;" >> $CFG
+    echo "        proxy_set_header Host \$http_host;" >> $CFG
+    echo "        proxy_redirect off;" >> $CFG
+    echo "        proxy_pass http://app_server;" >> $CFG
+    echo "    }" >> $CFG
+    echo "    location /static/ {" >> $CFG
+    echo "        alias $1/py/teachercomapp/static/;" >> $CFG
+    echo "    }" >> $CFG
+    echo "}" >> $CFG
+
+    return 0
+}
+
+configure_nginx $INSTALL_DIR
+
+configure_gunicorn() {
+    if [ -z "$1" ]; then
+        return 1
+    fi
+
+    if [ -e "$GCFG" ]; then
+        rm $GCFG
+    fi
+
+    echo "CONFIG = {" > $GCFG
+    echo "    'mode': 'django'," >> $GCFG
+    echo "    'environment': {" >> $GCFG
+    echo "        'PYTHONPATH': '$1/py/teachercom'," >> $GCFG
+    echo "        'DJANGO_SETTINGS_MODULE': 'settings'," >> $GCFG
+    echo "    }," >> $GCFG
+    echo "    'working_dir': '$1/py/teachercom'," >> $GCFG
+    echo "    'user': 'www-data'," >> $GCFG
+    echo "    'group': 'www-data'," >> $GCFG
+    echo "    'args': (" >> $GCFG
+    echo "        '--bind=unix:/tmp/gunicorn.sock'," >> $GCFG
+    echo "        '--workers=4'," >> $GCFG
+    echo "    )," >> $GCFG
+    echo "}" >> $GCFG
+
+    return 0
+}
+
+configure_gunicorn $INSTALL_DIR
+
+pushd /etc/nginx/sites-enabled &> /dev/null
+if [ -e ecep ]; then
+    rm ecep
+fi
+ln -s $CFG
+popd &> /dev/null
+
+service gunicorn start
+service nginx start
+
+
+
+
+
 
 read_or_none() {
     read A
