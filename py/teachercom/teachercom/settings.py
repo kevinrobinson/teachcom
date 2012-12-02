@@ -146,12 +146,15 @@ INSTALLED_APPS = (
 #Number of days for activation email to stay valid
 ACCOUNT_ACTIVATION_DAYS = 7
 
+SEND_EMAIL = False  #Change this to True to require 2 step activation with an email
+
 #Temporary email backend 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FILE_PATH='/tmp/email_log'
 
-AUTH_PROFILE_MODULE='teachercomapp.Teacher'
 
+AUTH_PROFILE_MODULE='teachercomapp.Teacher'
+LOGIN_REDIRECT_URL = '/send'
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

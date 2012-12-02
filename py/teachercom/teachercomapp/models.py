@@ -41,6 +41,7 @@ class Teacher(models.Model):
     user = models.OneToOneField(User)
     twilio_api_key=models.CharField(max_length=128)
     twilio_api_secret=models.CharField(max_length=128)
+    twilio_number=models.CharField(max_length=20)
 
 def create_teacher(sender, **kwargs):
     request = kwargs['request'].POST  
@@ -49,6 +50,7 @@ def create_teacher(sender, **kwargs):
     extended_user.user = User.objects.get(username=request['username'])
     extended_user.twilio_api_key = request['twilio_api_key']
     extended_user.twilio_api_secret = request['twilio_api_secret']
+    extended_user.twilio_number=request['twilio_number']
     extended_user.save()
 
 from registration.signals import user_registered
