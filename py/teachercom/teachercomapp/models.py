@@ -37,6 +37,7 @@ class Event(models.Model):
     date_of_message = models.DateTimeField()
     type_of_message = models.IntegerField(choices=MESSAGE_TYPES) 
     result_of_message = models.IntegerField(choices = RESULT_TYPES)
+    teacher = models.ForeignKey('Teacher')
 
 class Teacher(models.Model):
     user = models.OneToOneField(User)
